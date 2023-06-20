@@ -1,5 +1,5 @@
 typing_extensions==4.3.0
-fastapi==0.85.0
+# fastapi==0.85.0
 fastapi>=0.80.0,<=0.85.0
 uvicorn==0.18.3
 python-multipart==0.0.5
