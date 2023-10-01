@@ -1,0 +1,41 @@
+# docker-compose -f a-compose.yaml up
+# docker-compose -f a-compose.yaml down
+
+version: "3.7"
+
+services:
+  be:
+    container_name: be
+    image: file-uploader-be:v0.1.0
+    volumes:
+      - .\backend\files:/app/files
+    networks:
+      - fileuploader
+    environment:
+      - APP_PORT=8000
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_HOST=mysql
+      - DB_NAME=file_uploader
+    ports:
+      - "8888:8000"
+  fe:
+    container_name: fe
+    image: file-uploader-fe:latest
+    ports:
+      - "3030:3000"
+    networks:
+      - fileuploader
+
+    environment:
+      - PORT=3000
+      - REACT_APP_BACKEND_URL=localhost
+      - REACT_APP_BACKEND_PORT=8888
+      - REACT_APP_BACKEND_PROTOCOL=http
+    depends_on:
+      - be
+
+networks:
+  fileuploader:
+    name: fileuploader
+    external: true
